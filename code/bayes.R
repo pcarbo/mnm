@@ -10,8 +10,7 @@ bayes.mvr <- function (x, Y, V, S0) {
   # Compute the log-Bayes factor.
   logbf <- (as.numeric(determinant(S)$modulus) +
             - as.numeric(determinant(S0 + S)$modulus) 
-            + dot(b,solve(S,b))
-            - dot(b,solve(S0 + S,b)))/2
+            + dot(b,solve(S,b)) - dot(b,solve(S0 + S,b)))/2
 
   # Compute the posterior mean and covariance assuming a multivariate
   # normal prior with zero mean and covariance S0.

@@ -9,10 +9,10 @@ sim.mvr.simple <- function (x, b, V) {
   m <- length(b)
     
   # Simulate the responses, Y.
-  Y <- matrix(0,n,m)
-  for (i in 1:n)
-    Y[i,] <- rmvnorm(1,b*x[i],V,method = "chol")
-
+  Y <- matrix(rnorm(n*m),n,m)
+  R <- chol(V)
+  Y <- x %*% t(b) + Y %*% R
+  
   # Output the simulated responses.
   return(Y)
 }

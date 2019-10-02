@@ -11,6 +11,6 @@ multivariate_regression <- function(bhat, xtx_inv, V, U) {
   post_b2 = lapply(1:length(post_cov),
       function(j) tcrossprod(post_b1[,j]) + post_cov[[j]])
   return(list(b1 = t(post_b1), b2 = aperm(abind(post_b2, along = 3),
-                                   c(2,1,3)), lbf = lbf))
+                                   c(2,1,3)), lbf = lbf,post_cov = post_cov))
 }
 

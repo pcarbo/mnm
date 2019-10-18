@@ -42,6 +42,11 @@ bayes.mvr <- function (x, Y, V, S0, p0) {
 # being that the regression coefficients b are assigned a
 # mixture-of-normals prior with mixture weights w0 and covariance
 # matrices S0 (this should be a list of the same length as w0).
+#
+# The outputs are: the log-Bayes factor (logbf), the posterior
+# inclusion probability (p1), the posterior assignment probabilities
+# (w1), the posterior mean of the coefficients (mu1), and the
+# posterior covariance of the coefficients (S1).
 bayes.mvrmix <- function (x, Y, V, w0, S0, p0) {
 
   # Get the number of variables (n) and the number of mixture
@@ -60,13 +65,16 @@ bayes.mvrmix <- function (x, Y, V, w0, S0, p0) {
   logbf <- sapply(out,function (x) x$logbf)
   w1    <- softmax(logbf + log(w0))
 
-  # Compute the posterior mean and covariance of the regression
-  # coefficients.
+  # Compute the posterior mean (mu1) and covariance (S1) of the
+  # regression coefficients.
   A   <- matrix(0,n,n)
   mu1 <- rep(0,n)
   for (j in 1:k) {
-    mu1 <- mu1 + w1[j]*out[[j]]$mu1
-    A   <- A   + w1[j]*with(out[[j]],S1 + tcrossprod(mu1))
+    wj  <- w1[j]
+    muj <- out[[j]]$mu1
+    Sj  <- out[[j]]$S1
+    mu1 <- mu1 + wj*muj
+    A   <- A   + wj*(Sj + tcrossprod(muj))
   }
   S1 <- A - tcrossprod(mu1)
   

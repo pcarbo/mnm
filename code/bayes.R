@@ -5,12 +5,13 @@
 #
 # The outputs are: b, the least-squares estimate of the regression
 # coefficients; S, the covariance of b; mu1, the posterior mean of the
-# regression coefficients; S1, the posterior covariance of the
-# regression coefficients; and p1, the posterior probability that the
-# coefficient is not zero.
+# regression coefficients given that the coefficients are not all
+# zero; S1, the posterior covariance of the regression coefficients
+# given that the coefficients are not all zero; and p1, the posterior
+# probability that the coefficients are not all zero.
 #
 # Input argument p0 specifies the prior probability that the
-# coefficient is not zero.
+# coefficients are not all zero.
 bayes.mvr <- function (x, Y, V, S0, p0) {
 
   # Compute the least-squares estimate and its covariance.
@@ -45,8 +46,12 @@ bayes.mvr <- function (x, Y, V, S0, p0) {
 #
 # The outputs are: the log-Bayes factor (logbf), the posterior
 # inclusion probability (p1), the posterior assignment probabilities
-# (w1), the posterior mean of the coefficients (mu1), and the
-# posterior covariance of the coefficients (S1).
+# (w1), the posterior mean of the coefficients given that all the
+# coefficients are not nonzero (mu1), and the posterior covariance of
+# the coefficients given that all the coefficients are not zero (S1).
+#
+# Input argument p0 specifies the prior probability that the
+# coefficients are not all zero.
 bayes.mvrmix <- function (x, Y, V, w0, S0, p0) {
 
   # Get the number of variables (n) and the number of mixture
